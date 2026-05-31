@@ -12,3 +12,12 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 - **Version Control**: Initialized the Git repository, configured `.gitignore` to prevent secret leaks, and pushed the initial clean commit history to GitHub.
 
 ---
+
+## Day 2 (May 31, 2026)
+**Architecture Reorganization & Database Migrations**
+- **Directory Structure Reorganization**: Moved database models to `api/models/` and Alembic configuration to `migrations/` to establish a scalable backend architecture.
+- **FastAPI Entrypoint**: Created a minimal `api/main.py` to bootstrap the FastAPI server and keep the API Docker container healthy.
+- **Docker Networking Fix**: Updated `.env` variables so the API container correctly resolves the `postgres` and `redis` services by their Docker Compose hostnames rather than `localhost`.
+- **Database Initialization**: Successfully executed the `001_initial_schema.py` migration via Alembic, verifying that all database tables (`players`, `games`, `sessions`, `npcs`, etc.) are accurately deployed in PostgreSQL.
+
+---
