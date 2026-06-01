@@ -5,6 +5,7 @@ uvicorn[standard]>=0.29.0
 # ── Validation & Settings ──────────────────────────────────────────────────────
 pydantic>=2.0.0
 pydantic-settings>=2.0.0
+email-validator>=2.1.0
 
 # ── Database ───────────────────────────────────────────────────────────────────
 sqlalchemy>=2.0.0
@@ -18,6 +19,8 @@ redis>=4.2.0
 
 # ── Auth ───────────────────────────────────────────────────────────────────────
 python-jose[cryptography]>=3.3.0
+# bcrypt pinned to 4.0.1 — passlib backend detection breaks on 4.1+ with Python 3.12
+bcrypt==4.0.1
 passlib[bcrypt]>=1.7.4
 
 # ── HTTP / Forms ───────────────────────────────────────────────────────────────
