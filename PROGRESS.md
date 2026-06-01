@@ -21,3 +21,13 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 - **Database Initialization**: Successfully executed the `001_initial_schema.py` migration via Alembic, verifying that all database tables (`players`, `games`, `sessions`, `npcs`, etc.) are accurately deployed in PostgreSQL.
 
 ---
+
+## Day 3 (June 1, 2026)
+**API Infrastructure & Open Source Standards**
+- **Community Standards**: Upgraded the repository structure to reflect professional open-source standards by adding a `LICENSE` (MIT), `Makefile`, `pyproject.toml` (with Ruff configuration), `.editorconfig`, and a `CONTRIBUTING.md` guide.
+- **API Schemas Integration**: Migrated and integrated Pydantic v2 schemas into `api/schemas/`, establishing strong request/response validation for authentication (`auth.py`), sessions (`session.py`), and common endpoints (`common.py`).
+- **Dependency Injection Framework**: Structured `api/dependencies.py` to seamlessly handle database sessions, Redis connection pooling, and strict JWT Bearer token validation.
+- **Dependency Upgrades**: Added `email-validator` and necessary cryptographic libraries (`python-jose`, `passlib`, `bcrypt`) to `requirements.txt` to support the new authentication and schema validation systems.
+- **Docker Validation**: Successfully rebuilt the FastAPI Docker image with the new dependencies and verified clean server startup and syntax execution.
+
+---
