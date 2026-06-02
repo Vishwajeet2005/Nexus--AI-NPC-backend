@@ -31,3 +31,13 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 - **Docker Validation**: Successfully rebuilt the FastAPI Docker image with the new dependencies and verified clean server startup and syntax execution.
 
 ---
+
+## Day 4 (June 2, 2026)
+**Service Layer Implementation**
+- **Service Architecture**: Established the `api/services/` layer to decouple business logic from API routing, adhering to a clean, modular architecture.
+- **Authentication Service**: Implemented `auth_service.py` to handle password hashing (bcrypt), account lockout mechanisms, guest account creation, and JWT access/refresh token generation and blacklisting.
+- **Session Service**: Added `session_service.py` for comprehensive game session lifecycle management, including state validation, matchmaking primitives, and player tracking.
+- **Realtime Service**: Built `realtime_service.py` to manage WebSocket broadcasting and connection pooling, laying the groundwork for live AI NPC interactions and multiplayer synchronization.
+- **Environment Validation**: Verified Python syntax and successfully ran the FastAPI application inside the Docker container with the new service layers fully integrated.
+
+---
