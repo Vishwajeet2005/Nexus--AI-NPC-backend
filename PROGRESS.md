@@ -41,3 +41,12 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 - **Environment Validation**: Verified Python syntax and successfully ran the FastAPI application inside the Docker container with the new service layers fully integrated.
 
 ---
+
+## Day 5 (June 3, 2026)
+**API Routing & Final Wiring**
+- **Router Implementation**: Successfully added the API endpoint controllers (`auth.py`, `realtime.py`, `sessions.py`) into the `api/routers/` layer, completing the structural progression of the API.
+- **Application Assembly**: Rewrote `api/main.py` to act as the central wiring hub. It now uses an asynchronous `lifespan` handler to strictly initialize the PostgreSQL `asyncpg` engine and the Redis connection pools before the server starts accepting requests.
+- **Integration**: Mounted all routers to the FastAPI instance under the `/v1` namespace and applied global `CORSMiddleware`.
+- **System Testing**: Performed a live integration test via Docker. Sent a request to `POST /v1/auth/guest` which successfully queried the database, wrote a new player record, hit Redis, and returned valid cryptographically signed JWT access and refresh tokens. **Phase 1 backend architecture is officially complete!**
+
+---
