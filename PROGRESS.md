@@ -50,3 +50,12 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 - **System Testing**: Performed a live integration test via Docker. Sent a request to `POST /v1/auth/guest` which successfully queried the database, wrote a new player record, hit Redis, and returned valid cryptographically signed JWT access and refresh tokens. **Phase 1 backend architecture is officially complete!**
 
 ---
+
+## Day 6 (June 4, 2026)
+**Main API Overhaul & Diagnostics**
+- **Structured Logging**: Upgraded `main.py` to use a robust JSON logging formatter and added a `RequestLoggingMiddleware`. Every HTTP request now logs a unique `request_id`, `client_ip`, and accurate `duration_ms` metrics.
+- **Rate Limiting**: Integrated a Redis-backed sliding-window rate limiter (`RateLimitMiddleware`) to protect the API from abuse (configured to block excessive hits per IP).
+- **Exception Handling**: Mapped all generic exceptions and HTTP errors to a strictly typed, spec-compliant `ErrorResponse` schema envelope with global exception handlers.
+- **Probes & Testing**: Added Kubernetes-style `/health` and `/ready` probes. Successfully spun up Docker Desktop, verified liveness and readiness of both the PostgreSQL engine and Redis pool, and successfully load-tested the `/v1/auth/guest` endpoint which successfully routed through the entire new middleware stack.
+
+---
