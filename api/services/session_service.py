@@ -348,6 +348,10 @@ async def _join_session(
 
     await db.commit()
 
+    # Expunge the old session from the identity map so _get_session_or_404
+    # is forced to execute a fresh query and load the new session_players.
+    db.expunge(session)
+
     # Reload to include the new membership in the response
     session = await _get_session_or_404(session.id, db)
 

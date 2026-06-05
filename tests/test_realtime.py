@@ -298,8 +298,17 @@ class TestRealtimeService:
             data={"player_id": str(uuid.uuid4()), "username": "testplayer"},
         )
 
-        # fakeredis: get the published message
-        msg = await pubsub.get_message(ignore_subscribe_messages=True, timeout=1.0)
+        # fakeredis: get the published message via listen generator for reliability
+        msg_data = None
+        async def _get():
+            async for m in pubsub.listen():
+                if m["type"] == "message":
+                    return m
+        try:
+            msg = await asyncio.wait_for(_get(), timeout=1.0)
+        except asyncio.TimeoutError:
+            msg = None
+            
         assert msg is not None
         payload = json.loads(msg["data"])
         assert payload["event"] == "player.joined"
@@ -435,7 +444,16 @@ class TestRealtimeService:
 
         for coro, expected_type in cases:
             await coro
-            msg = await pubsub.get_message(ignore_subscribe_messages=True, timeout=1.0)
+            msg = None
+            async def _get():
+                async for m in pubsub.listen():
+                    if m["type"] == "message":
+                        return m
+            try:
+                msg = await asyncio.wait_for(_get(), timeout=1.0)
+            except asyncio.TimeoutError:
+                pass
+            
             assert msg is not None, f"No message for expected type {expected_type}"
             payload = json.loads(msg["data"])
             assert payload["event"] == expected_type, (
