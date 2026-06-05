@@ -51,8 +51,8 @@ Multiplayer infrastructure + stateful AI NPC service — managed, scalable, and 
 
 | Phase | Status | Description |
 |---|---|---|
-| Phase 1 — Foundation | 🔨 **In Progress** | API design, FastAPI skeleton, DB schema, WebSocket server |
-| Phase 2 — NPC Service | 📋 Planned | Personality engine, memory layer, emotional state, LLM integration |
+| Phase 1 — Foundation | ✅ **Complete** | API design, FastAPI skeleton, DB schema, WebSocket server |
+| Phase 2 — NPC Service | 🔨 **In Progress** | Personality engine, memory layer, emotional state, LLM integration |
 | Phase 3 — SDK & DX | 📋 Planned | Python + JS SDKs, developer dashboard, full API docs |
 | Phase 4 — Echoes of Truth | 📋 Planned | Flagship game built entirely on Nexus as proof-of-concept |
 | Phase 5 — Public Launch | 📋 Planned | Open access, usage-based pricing, YC Startup School |
@@ -525,21 +525,21 @@ Echoes of Truth is the answer to the question every developer will ask: *"Does N
 ## 🗺️ Roadmap
 
 ```
-PHASE 1 — Foundation                              🔨 IN PROGRESS
+PHASE 1 — Foundation                              ✅ COMPLETE
 ────────────────────────────────────────────────────────────────
  ✅  Architecture design & system diagram
  ✅  API contract design (sessions, NPC, auth, realtime)
  ✅  Database schema design (PostgreSQL)
- 🔨  FastAPI project skeleton + middleware
- 🔨  PostgreSQL integration + migrations (Alembic)
- 🔨  Redis integration (session cache + pub-sub)
- 🔨  WebSocket server — session rooms + event broadcasting
- 📋  Basic session CRUD endpoints
- 📋  Player auth endpoints (register, login, refresh, logout)
- 📋  Docker + docker-compose dev environment
+ ✅  FastAPI project skeleton + middleware
+ ✅  PostgreSQL integration + migrations (Alembic)
+ ✅  Redis integration (session cache + pub-sub)
+ ✅  WebSocket server — session rooms + event broadcasting
+ ✅  Basic session CRUD endpoints
+ ✅  Player auth endpoints (register, login, refresh, logout)
+ ✅  Docker + docker-compose dev environment
 
 
-PHASE 2 — NPC Service                             📋 UPCOMING
+PHASE 2 — NPC Service                             🔨 IN PROGRESS
 ────────────────────────────────────────────────────────────────
  📋  NPC personality profile schema (Pydantic models)
  📋  NPC memory persistence layer (PostgreSQL + Redis cache)
