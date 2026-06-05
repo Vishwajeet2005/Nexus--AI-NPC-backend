@@ -14,8 +14,10 @@ services:
     volumes:
       # Hot-reload: mount source so uvicorn --reload picks up changes
       - ./api:/app/api
+      - ./tests:/app/tests
       - ./migrations:/app/migrations
       - ./alembic.ini:/app/alembic.ini
+      - ./pytest.ini:/app/pytest.ini
     command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
     restart: unless-stopped
 
