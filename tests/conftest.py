@@ -48,6 +48,14 @@ except ImportError:
 from api.main import app
 from api.models import Base
 import api.dependencies as _deps
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def _mock_lifespan(app):
+    yield
+
+# Disable the real lifespan so it doesn't overwrite our mock DB/Redis singletons
+app.router.lifespan_context = _mock_lifespan
 
 # ── Test database URL ──────────────────────────────────────────────────────────
 # Uses a dedicated `nexus_test` database so tests never touch dev data.
@@ -70,31 +78,48 @@ def pytest_configure(config: pytest.Config) -> None:
     )
 
 
-# ── Session-scoped engine (created once for the entire test run) ───────────────
+# ── Session-scoped schema setup (runs once) ────────────────────────────────────
 
-@pytest_asyncio.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
+def setup_test_schema():
+    """
+    Build all tables once at the start of the test session.
+    We use asyncio.run() to spawn an isolated event loop for this task
+    so we don't bleed event loops into the tests.
+    """
+    async def _setup():
+        _engine = create_async_engine(TEST_DATABASE_URL, echo=False)
+        async with _engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        await _engine.dispose()
+        
+    async def _teardown():
+        _engine = create_async_engine(TEST_DATABASE_URL, echo=False)
+        async with _engine.begin() as conn:
+            await conn.run_sync(Base.metadata.drop_all)
+        await _engine.dispose()
+
+    asyncio.run(_setup())
+    yield
+    asyncio.run(_teardown())
+
+
+# ── Function-scoped engine ─────────────────────────────────────────────────────
+
+@pytest_asyncio.fixture(scope="function")
 async def engine() -> AsyncGenerator[AsyncEngine, None]:
     """
-    Create an async engine pointing at `nexus_test`.
-    Build all tables once, then drop them after the session.
+    Create an async engine scoped to the individual test function's event loop.
+    This guarantees we never cross event-loop boundaries.
     """
+    from sqlalchemy.pool import NullPool
+    
     _engine = create_async_engine(
         TEST_DATABASE_URL,
         echo=False,
-        # NullPool: each `connect()` is a fresh TCP connection.
-        # Required when the same engine is shared across tests that use
-        # SAVEPOINT/ROLLBACK — pooled connections remember transaction state.
-        pool_pre_ping=True,
+        poolclass=NullPool,
     )
-
-    async with _engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-
     yield _engine
-
-    async with _engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-
     await _engine.dispose()
 
 
