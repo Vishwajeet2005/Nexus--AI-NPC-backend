@@ -70,3 +70,11 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 - **Phase 1 Complete**: The backend has achieved 100% test coverage and passes perfectly green. Phase 1 architecture is now officially stable and robustly fortified for production-grade workloads.
 
 ---
+
+## Day 8 (June 9, 2026)
+**Phase 2: NPC Service Kickoff**
+- **NPC Schemas**: Added `api/schemas/npc.py` defining the core Pydantic v2 schemas for the AI NPC layer. This includes highly detailed models for `NPCPersonality`, `NPCTell`, `NPCSecret`, and `NPCEmotionalState` to drive the stateful AI logic.
+- **Emotion Engine**: Implemented `api/services/emotion_service.py`, a pure-logic, deterministic emotional state engine. It applies signed deltas to the NPC's emotional state (stress, trust, suspicion, cooperation) and prioritises behavioural classifications (e.g. cooperative, deflecting, nervous, hostile, confessing).
+- **Architecture**: Relocated the root files into their proper structural locations and committed them cleanly to the main branch to establish the foundation for Phase 2.
+
+---
