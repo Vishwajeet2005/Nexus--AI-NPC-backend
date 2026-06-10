@@ -11,12 +11,22 @@ from functools import lru_cache
 from typing import Literal
 
 from pydantic import AnyUrl, Field, field_validator
-# pyrefly: ignore [missing-import]
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-   
+    """
+    Application settings resolved from environment variables.
+
+    Pydantic-settings reads values in this priority order:
+      1. Explicitly set environment variables
+      2. Variables in the .env file (if present)
+      3. Field default values defined here
+
+    All fields are fully type-annotated and validated on startup,
+    so misconfiguration surfaces immediately rather than at request time.
+    """
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
@@ -83,6 +93,54 @@ class Settings(BaseSettings):
     environment: Literal["development", "staging", "production"] = Field(
         default="development",
         description="Deployment environment. Controls log verbosity and safety checks.",
+    )
+
+    # ── Phase 2: LLM Provider ──────────────────────────────────────────────────
+    llm_provider: str = Field(
+        default="groq",
+        description="Active LLM provider. One of: groq, openai, anthropic.",
+    )
+
+    # Groq
+    groq_api_key: str = Field(
+        default="",
+        description="Groq API key. Required when LLM_PROVIDER=groq.",
+    )
+    groq_model: str = Field(
+        default="llama-3.1-8b-instant",
+        description="Groq model identifier.",
+    )
+
+    # OpenAI
+    openai_api_key: str = Field(
+        default="",
+        description="OpenAI API key. Required when LLM_PROVIDER=openai.",
+    )
+    openai_model: str = Field(
+        default="gpt-4o-mini",
+        description="OpenAI model identifier.",
+    )
+
+    # Anthropic
+    anthropic_api_key: str = Field(
+        default="",
+        description="Anthropic API key. Required when LLM_PROVIDER=anthropic.",
+    )
+    anthropic_model: str = Field(
+        default="claude-haiku-4-5-20251001",
+        description="Anthropic model identifier.",
+    )
+
+    # ── Phase 2: NPC / Memory ──────────────────────────────────────────────────
+    npc_memory_hot_limit: int = Field(
+        default=20,
+        ge=1,
+        description="Max interactions kept in Redis hot cache per NPC.",
+    )
+    npc_memory_ttl_seconds: int = Field(
+        default=86400,
+        ge=60,
+        description="TTL for NPC memory entries in Redis.",
     )
 
     # ── Derived / computed properties ─────────────────────────────────────────

@@ -78,3 +78,12 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 - **Architecture**: Relocated the root files into their proper structural locations and committed them cleanly to the main branch to establish the foundation for Phase 2.
 
 ---
+
+## Day 9 (June 10, 2026)
+**Phase 2: LLM Provider Abstraction**
+- **Provider Agnostic Layer**: Created the `api/services/llm/` directory with an abstract `BaseLLMProvider` that enforces a strict JSON-schema response envelope containing the `npc_response`, `state_delta`, `behaviour`, and `secret_leaked` keys.
+- **Provider Implementations**: Added concrete implementations for `OpenAIProvider`, `GroqProvider`, and `AnthropicProvider`, standardizing the timeout and parsing failure logic across all models.
+- **Factory Pattern**: Implemented `factory.py` to seamlessly route LLM instantiation based on the environment variables defined in the updated `api/config.py`, allowing instant swappability of models without codebase changes.
+- **Environment Updates**: Updated `.env.example` and `api/config.py` to include settings for the LLM providers and NPC memory constraints.
+
+---
