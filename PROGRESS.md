@@ -87,3 +87,11 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 - **Environment Updates**: Updated `.env.example` and `api/config.py` to include settings for the LLM providers and NPC memory constraints.
 
 ---
+
+## Day 14 (June 15, 2026)
+**Phase 2: Core NPC Orchestration & Memory Layer**
+- **Two-Tier Memory System**: Added `api/services/memory_service.py`, implementing a robust memory cache using a Redis hot-tier (fast LTRIM/LPUSH limits) backed by a Postgres cold-tier for permanent interaction audit trails.
+- **NPC Service Orchestrator**: Implemented `api/services/npc_service.py` to wire everything together into a strict 12-step interaction pipeline. This pipeline handles database hydration, LLM prompt assembly, secure server-side secret validation, emotional state updates, and real-time WebSocket broadcasting.
+- **Data Fixtures**: Added the first complete AI character profile (`api/data/npcs/marcus_webb.json`), featuring personality traits, behavioural tells, and hidden secrets guarded by stress thresholds.
+
+---

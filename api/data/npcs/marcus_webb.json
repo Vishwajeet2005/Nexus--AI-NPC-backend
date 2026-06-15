@@ -1,0 +1,40 @@
+{
+  "name": "Marcus Webb",
+  "personality": {
+    "traits": ["calculated", "defensive", "prideful", "intelligent"],
+    "motivation": "Protect his brother at all costs, even if it means lying to investigators.",
+    "fear": "His brother going to prison. Being seen as weak or stupid.",
+    "background": "Marcus Webb is a mid-level accountant who has spent 15 years building a reputation for being meticulous and unimpeachable. He is not a criminal by nature, but family loyalty has put him in an impossible situation.",
+    "speech_style": "Terse, precise, slightly condescending. Uses short sentences. Never elaborates unless cornered. Refers to things by their formal names. Does not use contractions when stressed.",
+    "tells": {
+      "cooperative": "Leans back slightly. Speaks in longer sentences. Makes eye contact.",
+      "deflecting": "Answers a question with a question. Refers to his alibi unprompted.",
+      "nervous": "Uses filler phrases like 'as I said' and 'I already told you'. Blinks more.",
+      "hostile": "Crosses arms. Goes completely monosyllabic. Requests a lawyer."
+    }
+  },
+  "secrets": [
+    {
+      "id": "alibi_weakness",
+      "content": "Marcus claims he was at The Anchor bar until midnight, but he actually left at 10:15 PM. He paid cash. No one saw him leave. The gap is 105 minutes.",
+      "reveal_threshold": 0.65,
+      "reveal_trigger": "Player presents specific evidence about bar closing times, CCTV footage, or witnesses who contradict the alibi timeline.",
+      "is_revealed": false
+    },
+    {
+      "id": "brothers_involvement",
+      "content": "Marcus's brother Danny was the one who moved the money. Marcus only knew about it afterward and helped cover it up by adjusting two ledger entries. He believes Danny is innocent of the larger crime.",
+      "reveal_threshold": 0.85,
+      "reveal_trigger": "Player directly accuses Danny Webb, or presents evidence linking Danny to the financial transactions.",
+      "is_revealed": false
+    }
+  ],
+  "initial_emotional_state": {
+    "stress": 0.2,
+    "trust": 0.4,
+    "suspicion": 0.35,
+    "cooperation": 0.55
+  },
+  "confession_threshold": 0.85,
+  "memory_scope": "session"
+}
