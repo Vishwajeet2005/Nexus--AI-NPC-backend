@@ -93,6 +93,12 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 - **Two-Tier Memory System**: Added `api/services/memory_service.py`, implementing a robust memory cache using a Redis hot-tier (fast LTRIM/LPUSH limits) backed by a Postgres cold-tier for permanent interaction audit trails.
 - **NPC Service Orchestrator**: Implemented `api/services/npc_service.py` to wire everything together into a strict 12-step interaction pipeline. This pipeline handles database hydration, LLM prompt assembly, secure server-side secret validation, emotional state updates, and real-time WebSocket broadcasting.
 - **Data Fixtures**: Added the first complete AI character profile (`api/data/npcs/marcus_webb.json`), featuring personality traits, behavioural tells, and hidden secrets guarded by stress thresholds.
+
+---
+
+## Day 11 (June 17, 2026)
+**Phase 2: API Integration & Test Verification**
 - **API Integration**: Re-exported all Pydantic models in `api/schemas/__init__.py` and implemented the complete routing layer in `api/routers/npcs.py`, exposing endpoints for spawning NPCs, sending interactive messages, and retrieving memory logs. These endpoints were seamlessly hooked into the main FastAPI application.
+- **Test Verification**: Fully tested the new endpoint layer. Booted the test container, initialized `nexus_test`, and validated that the entire backend passes a clean 100% (96/96) success rate.
 
 ---
