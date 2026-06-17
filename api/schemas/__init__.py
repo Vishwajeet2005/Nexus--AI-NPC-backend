@@ -28,6 +28,22 @@ from api.schemas.session import (  # noqa: F401
     SessionStateUpdate,
 )
 
+from api.schemas.npc import (  # noqa: F401
+    NPCMemoryScope,
+    NPCBehaviour,
+    NPCTell,
+    NPCPersonality,
+    NPCSecret,
+    NPCEmotionalState,
+    NPCStateDelta,
+    NPCCreate,
+    NPCResponse,
+    InteractRequest,
+    InteractResponse,
+    NPCMemoryEntry,
+    NPCMemoryResponse,
+)
+
 __all__ = [
     # common
     "ErrorResponse",
@@ -46,4 +62,18 @@ __all__ = [
     "SessionResponse",
     "SessionListResponse",
     "SessionPlayerResponse",
+    # npc
+    "NPCMemoryScope",
+    "NPCBehaviour",
+    "NPCTell",
+    "NPCPersonality",
+    "NPCSecret",
+    "NPCEmotionalState",
+    "NPCStateDelta",
+    "NPCCreate",
+    "NPCResponse",
+    "InteractRequest",
+    "InteractResponse",
+    "NPCMemoryEntry",
+    "NPCMemoryResponse",
 ]
