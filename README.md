@@ -52,7 +52,7 @@ Multiplayer infrastructure + stateful AI NPC service — managed, scalable, and 
 | Phase | Status | Description |
 |---|---|---|
 | Phase 1 — Foundation | ✅ **Complete** | API design, FastAPI skeleton, DB schema, WebSocket server |
-| Phase 2 — NPC Service | 🔨 **In Progress** | Personality engine, memory layer, emotional state, LLM integration |
+| Phase 2 — NPC Service | ✅ **Complete** | Personality engine, memory layer, emotional state, LLM integration |
 | Phase 3 — SDK & DX | 📋 Planned | Python + JS SDKs, developer dashboard, full API docs |
 | Phase 4 — Echoes of Truth | 📋 Planned | Flagship game built entirely on Nexus as proof-of-concept |
 | Phase 5 — Public Launch | 📋 Planned | Open access, usage-based pricing, YC Startup School |
@@ -539,16 +539,16 @@ PHASE 1 — Foundation                              ✅ COMPLETE
  ✅  Docker + docker-compose dev environment
 
 
-PHASE 2 — NPC Service                             🔨 IN PROGRESS
+PHASE 2 — NPC Service                             ✅ COMPLETE
 ────────────────────────────────────────────────────────────────
- 📋  NPC personality profile schema (Pydantic models)
- 📋  NPC memory persistence layer (PostgreSQL + Redis cache)
- 📋  Emotional state engine (stress, trust, suspicion drift)
- 📋  LLM integration layer (provider-agnostic abstraction)
- 📋  Automatic game context injection pipeline
- 📋  Secret reveal threshold system
- 📋  NPC behaviour classification (deflecting, nervous, confessing...)
- 📋  Multi-NPC session support (multiple agents, shared context)
+ ✅  NPC personality profile schema (Pydantic models)
+ ✅  NPC memory persistence layer (PostgreSQL + Redis cache)
+ ✅  Emotional state engine (stress, trust, suspicion drift)
+ ✅  LLM integration layer (provider-agnostic abstraction)
+ ✅  Automatic game context injection pipeline
+ ✅  Secret reveal threshold system
+ ✅  NPC behaviour classification (deflecting, nervous, confessing...)
+ ✅  Multi-NPC session support (multiple agents, shared context)
 
 
 PHASE 3 — SDK & Developer Experience             📋 UPCOMING
