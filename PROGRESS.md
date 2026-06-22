@@ -110,3 +110,12 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 - **Success Rate**: Pushed the backend test coverage to 144 passing tests (100%), formally cementing the Phase 2 NPC logic as bulletproof and ready for production consumption.
 
 ---
+
+## Day 13 (June 22, 2026)
+**Phase 3: Python SDK (`nexus-py`) Kickoff**
+- **SDK Architecture**: Initialized the `nexus-py` package under `sdk/python/` using `hatchling` as the build backend. Designed a single-entry-point `NexusClient` that shares a single underlying `httpx.AsyncClient` across all domains (`auth`, `sessions`, `npcs`, `realtime`) to cleanly manage JWT injection and connection pooling.
+- **Subclients & Typings**: Implemented fully-typed subclients returning strict Pydantic v2 response models, drastically improving the developer experience with robust IDE autocomplete and built-in type validation.
+- **SDK Testing Harness**: Bootstrapped a dedicated test suite for the SDK utilizing `pytest-httpx` to mock backend responses. Created a custom `conftest.py` fixture to cleanly instantiate the test client.
+- **Test Success**: Achieved a 100% pass rate across all 28 Python SDK integration tests, verifying authentication flows, session state mutations, and mock NPC interactions seamlessly.
+
+---
