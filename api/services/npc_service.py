@@ -172,7 +172,7 @@ async def create_npc(payload: NPCCreate, db: AsyncSession) -> NPC:
 
     logger.info(
         "npc.created",
-        extra={"npc_id": str(npc.id), "name": npc.name, "session_id": str(npc.session_id)},
+        extra={"npc_id": str(npc.id), "npc_name": npc.name, "session_id": str(npc.session_id)},
     )
     return npc
 
