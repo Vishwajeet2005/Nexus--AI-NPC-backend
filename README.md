@@ -484,8 +484,8 @@ Nexus will ship official SDKs for the most common game environments. The design 
 
 | SDK | Language | Environments | Status |
 |---|---|---|---|
-| `nexus-py` | Python | FastAPI, Django, scripts | 🔨 In development |
-| `nexus-js` | JavaScript / TypeScript | Browser, Node.js, Vite | 🔨 In development |
+| `nexus-py` | Python | FastAPI, Django, scripts | ✅ Complete |
+| `nexus-js` | JavaScript / TypeScript | Browser, Node.js, Vite | ✅ Complete |
 | `nexus-cpp` | C++ | Unreal Engine 5, native | 📋 Planned |
 | `nexus-cs` | C# | Unity, .NET | 📋 Planned |
 
@@ -551,10 +551,10 @@ PHASE 2 — NPC Service                             ✅ COMPLETE
  ✅  Multi-NPC session support (multiple agents, shared context)
 
 
-PHASE 3 — SDK & Developer Experience             📋 UPCOMING
+PHASE 3 — SDK & Developer Experience             🔨 IN PROGRESS
 ────────────────────────────────────────────────────────────────
- 📋  nexus-py SDK (pip installable)
- 📋  nexus-js SDK (npm installable)
+ ✅  nexus-py SDK (pip installable)
+ ✅  nexus-js SDK (npm installable)
  📋  Developer dashboard — React frontend
          └── Session monitor
          └── NPC state visualiser

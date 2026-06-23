@@ -119,3 +119,15 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 - **Test Success**: Achieved a 100% pass rate across all 28 Python SDK integration tests, verifying authentication flows, session state mutations, and mock NPC interactions seamlessly.
 
 ---
+## Day 14 (June 23, 2026)
+**Phase 3: JavaScript/TypeScript SDK (
+exus-js) Integration**
+- **SDK Architecture**: Dropped the 
+exus-js SDK source files targeting modern Node.js and browser environments using native etch and WebSocket.
+- **Subclients**: Implemented strictly typed modules for uth, sessions, 
+pcs, and ealtime event handling.
+- **Testing**: Added extensive Vitest suite (client.test.ts) utilizing mocked globals to simulate server interactions and real-time events.
+- **Verification**: Passed all 21 test scenarios ensuring the JS SDK perfectly mirrors the Python SDK behavior and seamlessly handles backend schemas.
+- **Version Control**: Sequentially committed all JS SDK modules into the repository to maintain a clean Git history.
+
+---
