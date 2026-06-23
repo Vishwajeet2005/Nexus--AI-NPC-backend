@@ -53,7 +53,7 @@ Multiplayer infrastructure + stateful AI NPC service — managed, scalable, and 
 |---|---|---|
 | Phase 1 — Foundation | ✅ **Complete** | API design, FastAPI skeleton, DB schema, WebSocket server |
 | Phase 2 — NPC Service | ✅ **Complete** | Personality engine, memory layer, emotional state, LLM integration |
-| Phase 3 — SDK & DX | 📋 Planned | Python + JS SDKs, developer dashboard, full API docs |
+| Phase 3 — SDK & DX | 🔨 **In Progress** | Python + JS SDKs, developer dashboard, full API docs |
 | Phase 4 — Echoes of Truth | 📋 Planned | Flagship game built entirely on Nexus as proof-of-concept |
 | Phase 5 — Public Launch | 📋 Planned | Open access, usage-based pricing, YC Startup School |
 

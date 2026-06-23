@@ -119,16 +119,17 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 - **Test Success**: Achieved a 100% pass rate across all 28 Python SDK integration tests, verifying authentication flows, session state mutations, and mock NPC interactions seamlessly.
 
 ---
+
 ## Day 14 (June 23, 2026)
-**Phase 3: JavaScript/TypeScript SDK (
-`nexus-js`) Integration**
-- **SDK Architecture**: Dropped the 
-exus-js SDK source files targeting modern Node.js and browser environments using native etch and WebSocket.
-- **Subclients**: Implemented strictly typed modules for uth, sessions, 
-pcs, and 
-ealtime event handling.
-- **Testing**: Added extensive Vitest suite (client.test.ts) utilizing mocked globals to simulate server interactions and real-time events.
-- **Verification**: Passed all 21 test scenarios ensuring the JS SDK perfectly mirrors the Python SDK behavior and seamlessly handles backend schemas.
-- **Version Control**: Sequentially committed all JS SDK modules into the repository to maintain a clean Git history.
+**Phase 3: JavaScript SDK (`nexus-js`) Integration & Full Stack Verification**
+- **JavaScript SDK (`nexus-js`)**: Implemented the complete TypeScript/JavaScript SDK with native `fetch` and `WebSocket` support for modern Node.js and browser environments. Added strictly typed subclients for auth, sessions, npcs, and realtime events.
+- **JS Testing Suite**: Built an extensive Vitest suite (`client.test.ts`) utilizing mocked globals. Verified all 21 test scenarios, ensuring the JS SDK mirrors the Python SDK behavior flawlessly.
+- **Full Stack Integrity Check**: Conducted a massive top-to-bottom verification of the entire Nexus architecture. Rebuilt the Docker Compose stack (API, PostgreSQL, Redis) and ensured seamless startup.
+- **Test Database Routing Fix**: Diagnosed and resolved a critical environment variable fallback issue (`TEST_DATABASE_URL`) that was causing internal `pytest` failures against the Dockerized PostgreSQL instance.
+- **100% Green Status**: Achieved a flawless test run across all layers simultaneously:
+  - **Backend API**: 144/144 tests passed inside the Docker container.
+  - **Python SDK**: 28/28 integration tests passed natively.
+  - **JS SDK**: 21/21 tests passed natively.
+- **Documentation Polish**: Performed a thorough cleanup of the `README.md` and `PROGRESS.md` files to fix formatting issues, update Phase 3 roadmap statuses to "In Progress", and prepare the repository for the upcoming React Dashboard kickoff.
 
 ---
