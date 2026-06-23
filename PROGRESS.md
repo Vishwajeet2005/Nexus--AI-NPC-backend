@@ -130,6 +130,5 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
   - **Backend API**: 144/144 tests passed inside the Docker container.
   - **Python SDK**: 28/28 integration tests passed natively.
   - **JS SDK**: 21/21 tests passed natively.
-- **Documentation Polish**: Performed a thorough cleanup of the `README.md` and `PROGRESS.md` files to fix formatting issues, update Phase 3 roadmap statuses to "In Progress", and prepare the repository for the upcoming React Dashboard kickoff.
 
 ---
