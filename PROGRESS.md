@@ -112,7 +112,7 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 ---
 
 ## Day 13 (June 22, 2026)
-**Phase 3: Python SDK (`nexus-py`) Kickoff**
+**Phase 3: Python SDK () Kickoff**
 - **SDK Architecture**: Initialized the `nexus-py` package under `sdk/python/` using `hatchling` as the build backend. Designed a single-entry-point `NexusClient` that shares a single underlying `httpx.AsyncClient` across all domains (`auth`, `sessions`, `npcs`, `realtime`) to cleanly manage JWT injection and connection pooling.
 - **Subclients & Typings**: Implemented fully-typed subclients returning strict Pydantic v2 response models, drastically improving the developer experience with robust IDE autocomplete and built-in type validation.
 - **SDK Testing Harness**: Bootstrapped a dedicated test suite for the SDK utilizing `pytest-httpx` to mock backend responses. Created a custom `conftest.py` fixture to cleanly instantiate the test client.
@@ -121,11 +121,12 @@ This document tracks the daily progress, milestones, and updates for the Nexus A
 ---
 ## Day 14 (June 23, 2026)
 **Phase 3: JavaScript/TypeScript SDK (
-exus-js) Integration**
+`nexus-js`) Integration**
 - **SDK Architecture**: Dropped the 
 exus-js SDK source files targeting modern Node.js and browser environments using native etch and WebSocket.
 - **Subclients**: Implemented strictly typed modules for uth, sessions, 
-pcs, and ealtime event handling.
+pcs, and 
+ealtime event handling.
 - **Testing**: Added extensive Vitest suite (client.test.ts) utilizing mocked globals to simulate server interactions and real-time events.
 - **Verification**: Passed all 21 test scenarios ensuring the JS SDK perfectly mirrors the Python SDK behavior and seamlessly handles backend schemas.
 - **Version Control**: Sequentially committed all JS SDK modules into the repository to maintain a clean Git history.
