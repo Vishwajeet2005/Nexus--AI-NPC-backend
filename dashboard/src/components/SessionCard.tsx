@@ -1,44 +1,40 @@
 import { Link } from "react-router-dom";
 import type { Session } from "../api/nexus";
 
-const STATUS_STYLES: Record<string, { dot: string; text: string; label: string }> = {
-  created: { dot: "bg-status-yellow", text: "text-status-yellow", label: "Created" },
-  active:  { dot: "bg-status-green",  text: "text-status-green",  label: "Active"  },
-  ended:   { dot: "bg-tx-muted",      text: "text-tx-muted",      label: "Ended"   },
+const STATUS: Record<string, { dot: string; label: string; text: string }> = {
+  created: { dot: "bg-yellow",      label: "Created", text: "text-yellow"      },
+  active:  { dot: "bg-green",       label: "Active",  text: "text-green"       },
+  ended:   { dot: "bg-ink-3",       label: "Ended",   text: "text-ink-3"       },
 };
 
-interface SessionCardProps {
-  session: Session;
-}
-
-export function SessionCard({ session }: SessionCardProps) {
-  const activeCount = session.players.filter((p) => !p.left_at).length;
-  const s = STATUS_STYLES[session.status] ?? STATUS_STYLES.ended;
+export function SessionCard({ session }: { session: Session }) {
+  const s = STATUS[session.status] ?? STATUS.ended;
+  const active = session.players.filter((p) => !p.left_at).length;
 
   return (
     <Link
       to={`/sessions/${session.id}`}
-      className="card block p-4 hover:shadow-card-hover hover:border-border-strong transition-all duration-150 group"
+      className="card block p-4 hover:border-border-light hover:bg-raised transition-all duration-150 group"
     >
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <div>
-          <p className="font-mono text-sm font-medium text-tx-primary group-hover:text-accent transition-colors">
+      <div className="flex items-start justify-between gap-2 mb-3">
+        <div className="min-w-0">
+          <p className="font-mono text-[13px] font-medium text-ink truncate group-hover:text-blue transition-colors">
             {session.join_code}
           </p>
-          <p className="text-tx-muted text-xs mt-0.5">
-            {session.game_mode ?? "—"} · {session.region}
+          <p className="text-xs text-ink-3 mt-0.5 truncate">
+            {session.game_mode ?? "default mode"} · {session.region}
           </p>
         </div>
-        <span className={`badge ${s.text} bg-surface text-xs shrink-0`}>
-          <span className={`w-1.5 h-1.5 rounded-full ${s.dot} inline-block`} />
-          {s.label}
-        </span>
+        <div className={`flex items-center gap-1.5 tag shrink-0 ${s.text} bg-transparent`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${s.dot} shrink-0`} />
+          <span className="text-xs">{s.label}</span>
+        </div>
       </div>
 
-      <div className="flex items-center gap-3 text-xs text-tx-muted pt-3 border-t border-border-subtle">
-        <span>{activeCount}/{session.max_players} players</span>
+      <div className="flex items-center gap-3 text-xs text-ink-3 pt-3 border-t border-border">
+        <span>{active}/{session.max_players} players</span>
         {session.is_locked && (
-          <span className="text-status-yellow">Locked</span>
+          <span className="text-yellow">· locked</span>
         )}
         <span className="ml-auto">{new Date(session.created_at).toLocaleDateString()}</span>
       </div>
