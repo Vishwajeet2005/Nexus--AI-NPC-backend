@@ -247,9 +247,20 @@ async def create_session(
     return _build_session_response(session)
 
 
-async def get_session(session_id: UUID, db: AsyncSession) -> SessionResponse:
+async def get_session(session_id: UUID, player: Player, db: AsyncSession) -> SessionResponse:
     """GET /v1/sessions/{id}"""
     session = await _get_session_or_404(session_id, db)
+
+    in_session = any(
+        sp.player_id == player.id and sp.left_at is None
+        for sp in session.session_players
+    )
+    if not in_session:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={"error": "You are not an active member of this session.", "code": "NOT_IN_SESSION"},
+        )
+
     return _build_session_response(session)
 
 
@@ -550,10 +561,21 @@ async def update_session_state(
 
 async def get_session_players(
     session_id: UUID,
+    player: Player,
     db: AsyncSession,
 ) -> list[SessionPlayerResponse]:
     """GET /v1/sessions/{id}/players — returns only currently active players."""
     session = await _get_session_or_404(session_id, db)
+
+    in_session = any(
+        sp.player_id == player.id and sp.left_at is None
+        for sp in session.session_players
+    )
+    if not in_session:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={"error": "You are not an active member of this session.", "code": "NOT_IN_SESSION"},
+        )
 
     return [
         SessionPlayerResponse(
