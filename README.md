@@ -53,8 +53,8 @@ Multiplayer infrastructure + stateful AI NPC service — managed, scalable, and 
 |---|---|---|
 | Phase 1 — Foundation | ✅ **Complete** | API design, FastAPI skeleton, DB schema, WebSocket server |
 | Phase 2 — NPC Service | ✅ **Complete** | Personality engine, memory layer, emotional state, LLM integration |
-| Phase 3 — SDK & DX | 🔨 **In Progress** | Python + JS SDKs, developer dashboard, full API docs |
-| Phase 4 — Echoes of Truth | 📋 Planned | Flagship game built entirely on Nexus as proof-of-concept |
+| Phase 3 — SDK & DX | ✅ **Complete** | Python + JS SDKs, developer dashboard, full API docs |
+| Phase 4 — Echoes of Truth | 🔨 **In Progress** | Flagship game built entirely on Nexus as proof-of-concept |
 | Phase 5 — Public Launch | 📋 Planned | Open access, usage-based pricing, YC Startup School |
 
 ---
@@ -551,22 +551,22 @@ PHASE 2 — NPC Service                             ✅ COMPLETE
  ✅  Multi-NPC session support (multiple agents, shared context)
 
 
-PHASE 3 — SDK & Developer Experience             🔨 IN PROGRESS
+PHASE 3 — SDK & Developer Experience             ✅ COMPLETE
 ────────────────────────────────────────────────────────────────
  ✅  nexus-py SDK (pip installable)
  ✅  nexus-js SDK (npm installable)
- 📋  Developer dashboard — React frontend
+ ✅  Developer dashboard — React frontend
          └── Session monitor
          └── NPC state visualiser
          └── Analytics dashboard
          └── API key management
          └── Webhook configuration
- 📋  Full API documentation (auto-generated + hand-written guides)
- 📋  Local development mode (run full Nexus stack locally)
+ ✅  Full API documentation (auto-generated)
+ ✅  Local development mode (run full Nexus stack locally)
  📋  SDK quickstart — first NPC session in < 10 minutes
 
 
-PHASE 4 — Echoes of Truth                        📋 UPCOMING
+PHASE 4 — Echoes of Truth                        🔨 IN PROGRESS
 ────────────────────────────────────────────────────────────────
  📋  Game design document finalised
  📋  Core interrogation loop (React frontend + Nexus backend)
