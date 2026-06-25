@@ -37,7 +37,16 @@ function countByType(events: AnalyticsEvent[]): Array<{ type: string; count: num
     .map(([type, count]) => ({ type, count }));
 }
 
-const CHART_COLOURS = ["#6c63ff", "#4ade80", "#fbbf24", "#f87171", "#60a5fa"];
+const CHART_COLOURS = ["#4f6ef7", "#34d399", "#fbbf24", "#f87171", "#60a5fa"];
+
+// Tooltip styles
+const tooltipStyle = {
+  background: "#18181f",
+  border: "1px solid #27272f",
+  borderRadius: "8px",
+  fontSize: 12,
+  color: "#f4f4f6",
+};
 
 export default function Analytics() {
   const [events, setEvents] = useState<AnalyticsEvent[]>([]);
@@ -53,21 +62,20 @@ export default function Analytics() {
   }, [limit]);
 
   const hourBuckets = bucketByHour(events);
-  const typeCounts = countByType(events);
+  const typeCounts  = countByType(events);
 
   return (
-    <div className="p-6 max-w-5xl">
+    <div className="p-6 max-w-5xl mx-auto">
+      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-semibold text-white">Analytics</h1>
-          <p className="text-nexus-muted text-sm font-mono mt-1">
-            {events.length} events loaded
-          </p>
+          <h1 className="text-lg font-semibold text-tx-primary">Analytics</h1>
+          <p className="text-tx-muted text-sm mt-0.5">{events.length} events loaded</p>
         </div>
         <select
           value={limit}
           onChange={(e) => setLimit(Number(e.target.value))}
-          className="bg-nexus-surface border border-nexus-border text-nexus-muted rounded px-3 py-1 text-sm font-mono focus:outline-none focus:border-nexus-accent"
+          className="field w-auto"
         >
           <option value={100}>Last 100</option>
           <option value={200}>Last 200</option>
@@ -78,79 +86,73 @@ export default function Analytics() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2].map((i) => (
-            <div key={i} className="h-48 bg-nexus-surface border border-nexus-border rounded-xl animate-pulse" />
+            <div key={i} className="h-52 bg-surface-raised border border-border rounded-card animate-pulse" />
           ))}
         </div>
       ) : events.length === 0 ? (
-        <div className="text-center py-20 text-nexus-muted font-mono">
-          <p className="text-4xl mb-3">◻</p>
-          <p>No analytics events yet.</p>
-          <p className="text-xs mt-2">Events are recorded automatically as players use the API.</p>
+        <div className="flex flex-col items-center justify-center py-24 text-tx-muted gap-2">
+          <svg width="40" height="40" fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24" className="opacity-40">
+            <path d="M3 19h18M5 15l4-6 4 4 4-8"/>
+          </svg>
+          <p className="text-sm font-medium">No analytics events yet</p>
+          <p className="text-xs">Events are recorded automatically as players use the API.</p>
         </div>
       ) : (
-        <div className="space-y-6">
-          {/* Event volume over time */}
-          <div className="bg-nexus-surface border border-nexus-border rounded-xl p-5">
-            <h2 className="text-white font-medium mb-4">Event Volume (by hour)</h2>
-            <ResponsiveContainer width="100%" height={220}>
-              <BarChart data={hourBuckets} margin={{ top: 0, right: 16, bottom: 0, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e1e2e" />
-                <XAxis dataKey="time" tick={{ fill: "#6b7280", fontSize: 11, fontFamily: "monospace" }} />
-                <YAxis tick={{ fill: "#6b7280", fontSize: 11, fontFamily: "monospace" }} />
-                <Tooltip
-                  contentStyle={{ background: "#12121a", border: "1px solid #1e1e2e", fontFamily: "monospace", fontSize: 12 }}
-                  labelStyle={{ color: "#6c63ff" }}
-                />
-                <Bar dataKey="count" fill="#6c63ff" radius={[3, 3, 0, 0]} />
+        <div className="space-y-5">
+          {/* Event volume */}
+          <div className="card p-5">
+            <h2 className="text-sm font-semibold text-tx-primary mb-4">Event Volume <span className="text-tx-muted font-normal">(by hour)</span></h2>
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={hourBuckets} margin={{ top: 0, right: 8, bottom: 0, left: -10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1f1f27" vertical={false} />
+                <XAxis dataKey="time" tick={{ fill: "#5a5a6e", fontSize: 11 }} tickLine={false} axisLine={false} />
+                <YAxis tick={{ fill: "#5a5a6e", fontSize: 11 }} tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "#27272f" }} />
+                <Bar dataKey="count" fill="#4f6ef7" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
           {/* Events by type */}
-          <div className="bg-nexus-surface border border-nexus-border rounded-xl p-5">
-            <h2 className="text-white font-medium mb-4">Events by Type</h2>
-            <ResponsiveContainer width="100%" height={220}>
-              <BarChart data={typeCounts} layout="vertical" margin={{ top: 0, right: 16, bottom: 0, left: 80 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e1e2e" />
-                <XAxis type="number" tick={{ fill: "#6b7280", fontSize: 11, fontFamily: "monospace" }} />
-                <YAxis
-                  dataKey="type"
-                  type="category"
-                  tick={{ fill: "#6b7280", fontSize: 10, fontFamily: "monospace" }}
-                  width={80}
-                />
-                <Tooltip
-                  contentStyle={{ background: "#12121a", border: "1px solid #1e1e2e", fontFamily: "monospace", fontSize: 12 }}
-                />
-                <Bar dataKey="count" radius={[0, 3, 3, 0]}>
+          <div className="card p-5">
+            <h2 className="text-sm font-semibold text-tx-primary mb-4">Events by Type</h2>
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={typeCounts} layout="vertical" margin={{ top: 0, right: 8, bottom: 0, left: 80 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1f1f27" horizontal={false} />
+                <XAxis type="number" tick={{ fill: "#5a5a6e", fontSize: 11 }} tickLine={false} axisLine={false} />
+                <YAxis dataKey="type" type="category" tick={{ fill: "#8b8b9e", fontSize: 11 }} width={80} tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "#27272f" }} />
+                <Bar dataKey="count" radius={[0, 4, 4, 0]}>
                   {typeCounts.map((_entry, index) => (
-                    <Cell key={index} fill={CHART_COLOURS[index % CHART_COLOURS.length] ?? "#6c63ff"} />
+                    <Cell key={index} fill={CHART_COLOURS[index % CHART_COLOURS.length] ?? "#4f6ef7"} />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
 
-          {/* Raw event table */}
-          <div className="bg-nexus-surface border border-nexus-border rounded-xl p-5">
-            <h2 className="text-white font-medium mb-4">Recent Events</h2>
+          {/* Recent events table */}
+          <div className="card overflow-hidden">
+            <div className="px-5 py-4 border-b border-border">
+              <h2 className="text-sm font-semibold text-tx-primary">Recent Events</h2>
+            </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-xs font-mono">
+              <table className="w-full text-sm">
                 <thead>
-                  <tr className="text-nexus-muted border-b border-nexus-border">
-                    <th className="text-left py-2 pr-4">TYPE</th>
-                    <th className="text-left py-2 pr-4">SESSION</th>
-                    <th className="text-left py-2">TIMESTAMP</th>
+                  <tr className="text-xs font-medium text-tx-muted border-b border-border">
+                    <th className="text-left px-5 py-3">Type</th>
+                    <th className="text-left px-5 py-3">Session</th>
+                    <th className="text-left px-5 py-3">Timestamp</th>
                   </tr>
                 </thead>
                 <tbody>
                   {events.slice(0, 50).map((e) => (
-                    <tr key={e.id} className="border-b border-nexus-border/50 hover:bg-nexus-border/20">
-                      <td className="py-1.5 pr-4 text-nexus-accent">{e.event_type}</td>
-                      <td className="py-1.5 pr-4 text-nexus-muted">
+                    <tr key={e.id} className="border-b border-border-subtle hover:bg-surface-overlay transition-colors">
+                      <td className="px-5 py-2.5 text-accent font-medium">{e.event_type}</td>
+                      <td className="px-5 py-2.5 text-tx-muted font-mono text-xs">
                         {e.session_id ? e.session_id.slice(0, 8) + "…" : "—"}
                       </td>
-                      <td className="py-1.5 text-nexus-muted">
+                      <td className="px-5 py-2.5 text-tx-muted text-xs">
                         {new Date(e.created_at).toLocaleString()}
                       </td>
                     </tr>
