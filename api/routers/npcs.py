@@ -257,6 +257,7 @@ async def get_npc_memory(
     """
     return await npc_service.get_memory(
         npc_id=npc_id,
+        player_id=current_user.id,
         db=db,
         limit=limit,
         offset=offset,
