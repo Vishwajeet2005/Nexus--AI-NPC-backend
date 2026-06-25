@@ -39,7 +39,7 @@ import redis.asyncio as aioredis
 
 from api.config import get_settings
 from api.dependencies import init_db, init_redis
-from api.routers import auth, sessions, realtime, npcs
+from api.routers import auth, sessions, realtime, npcs, analytics, games, webhooks
 from api.schemas.common import ErrorResponse
 
 settings = get_settings()
@@ -432,10 +432,13 @@ async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONR
 # All routers are mounted under /v1.
 # realtime uses WebSocket routes — FastAPI handles them transparently here.
 
-app.include_router(auth.router,      prefix="/v1")
-app.include_router(sessions.router,  prefix="/v1")
-app.include_router(npcs.router,      prefix="/v1")
-app.include_router(realtime.router,  prefix="/v1")
+app.include_router(auth.router,       prefix="/v1")
+app.include_router(sessions.router,   prefix="/v1")
+app.include_router(npcs.router,       prefix="/v1")
+app.include_router(analytics.router,  prefix="/v1")
+app.include_router(games.router,      prefix="/v1")
+app.include_router(webhooks.router,   prefix="/v1")
+app.include_router(realtime.router,   prefix="/v1")
 
 
 # ── Health check ───────────────────────────────────────────────────────────────
