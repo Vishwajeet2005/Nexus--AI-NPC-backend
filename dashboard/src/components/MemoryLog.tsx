@@ -1,31 +1,27 @@
 import type { MemoryEntry } from "../api/nexus";
 
-interface MemoryLogProps {
-  entries: MemoryEntry[];
-}
-
-export function MemoryLog({ entries }: MemoryLogProps) {
+export function MemoryLog({ entries }: { entries: MemoryEntry[] }) {
   if (entries.length === 0) {
     return (
-      <p className="text-tx-muted text-sm text-center py-8">No interactions yet.</p>
+      <p className="text-xs text-ink-3 text-center py-10">
+        No interactions recorded yet.
+      </p>
     );
   }
 
   return (
-    <div className="space-y-3 max-h-[480px] overflow-y-auto pr-1">
+    <div className="space-y-4 max-h-[500px] overflow-y-auto pr-1">
       {entries.map((entry, i) => (
-        <div key={i} className="text-sm">
-          {/* Player turn */}
-          <div className="flex gap-2 mb-1.5">
-            <span className="shrink-0 text-xs font-medium text-tx-muted mt-0.5 w-10 text-right">You</span>
-            <div className="bg-surface border border-border rounded-lg px-3 py-2 text-tx-secondary flex-1">
+        <div key={i} className="space-y-2 text-sm">
+          <div className="flex gap-2 items-start">
+            <span className="shrink-0 text-2xs font-medium text-ink-3 w-7 text-right pt-1.5">you</span>
+            <div className="bg-raised border border-border rounded-lg px-3 py-2 text-xs text-ink-2 flex-1 leading-relaxed">
               {entry.player_message}
             </div>
           </div>
-          {/* NPC turn */}
-          <div className="flex gap-2">
-            <span className="shrink-0 text-xs font-medium text-accent mt-0.5 w-10 text-right">NPC</span>
-            <div className="bg-accent/10 border border-accent/20 rounded-lg px-3 py-2 text-tx-primary flex-1">
+          <div className="flex gap-2 items-start">
+            <span className="shrink-0 text-2xs font-medium text-blue w-7 text-right pt-1.5">npc</span>
+            <div className="bg-blue/5 border border-blue/15 rounded-lg px-3 py-2 text-xs text-ink flex-1 leading-relaxed">
               {entry.npc_response}
             </div>
           </div>
