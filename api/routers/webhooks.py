@@ -17,10 +17,13 @@ Phase 3; persistence is best-effort (dashboard feature, not game-critical).
 from __future__ import annotations
 
 import json
+import socket
 import time
 import uuid
+import ipaddress
 from datetime import datetime, timezone
 from typing import Annotated
+from urllib.parse import urlparse
 
 import httpx
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -29,8 +32,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 import redis.asyncio as aioredis
 
+from api.config import get_settings
 from api.dependencies import get_current_user, get_db, get_redis
 from api.models.player import Player
+
+settings = get_settings()
 
 router = APIRouter(prefix="/webhooks", tags=["Webhooks"])
 
@@ -45,12 +51,28 @@ def _webhook_key(player_id: str) -> str:
 # ── Request schemas ────────────────────────────────────────────────────────────
 
 class WebhookCreate(BaseModel):
-    url: str
+    url: HttpUrl
     events: list[str]
     name: str = "My Webhook"
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
+def _is_safe_url(url_str: str) -> bool:
+    """Prevent SSRF by blocking internal IPs in production."""
+    if settings.is_development:
+        return True
+    try:
+        parsed = urlparse(url_str)
+        hostname = parsed.hostname
+        if not hostname:
+            return False
+        ip = ipaddress.ip_address(socket.gethostbyname(hostname))
+        if ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_multicast or ip.is_reserved:
+            return False
+        return True
+    except Exception:
+        return False
 
 async def _load_webhooks(player_id: str, redis: aioredis.Redis) -> list[dict]:
     raw = await redis.get(_webhook_key(player_id))
@@ -83,11 +105,18 @@ async def create_webhook(
     redis: aioredis.Redis = Depends(get_redis),
     db: AsyncSession = Depends(get_db),
 ) -> dict:
+    url_str = str(payload.url)
+    if not _is_safe_url(url_str):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail={"error": "Invalid or unsafe webhook URL. Internal network destinations are not allowed.", "code": "UNSAFE_URL"},
+        )
+
     hooks = await _load_webhooks(str(current_user.id), redis)
     webhook = {
         "id": str(uuid.uuid4()),
         "name": payload.name,
-        "url": payload.url,
+        "url": url_str,
         "events": payload.events,
         "is_active": True,
         "created_at": datetime.now(timezone.utc).isoformat(),
@@ -116,6 +145,13 @@ async def test_webhook(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail={"error": "Webhook not found.", "code": "WEBHOOK_NOT_FOUND"},
+        )
+
+    url_str = hook["url"]
+    if not _is_safe_url(url_str):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail={"error": "Unsafe webhook URL. Delivery blocked.", "code": "UNSAFE_URL"},
         )
 
     test_payload = {
