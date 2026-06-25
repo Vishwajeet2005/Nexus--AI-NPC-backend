@@ -1,21 +1,14 @@
 import type { NPCBehaviour } from "../api/nexus";
 
-const BEHAVIOUR_STYLES: Partial<Record<string, { label: string; classes: string }>> = {
-  cooperative: { label: "Cooperative", classes: "bg-status-green/15  text-status-green"  },
-  deflecting:  { label: "Deflecting",  classes: "bg-status-yellow/15 text-status-yellow" },
-  nervous:     { label: "Nervous",     classes: "bg-status-blue/15   text-status-blue"   },
-  hostile:     { label: "Hostile",     classes: "bg-status-red/15    text-status-red"    },
-  confessing:  { label: "Confessing",  classes: "bg-accent/15        text-accent"        },
+const STYLES: Partial<Record<string, { label: string; cls: string }>> = {
+  cooperative:  { label: "Cooperative",  cls: "bg-green/10  text-green"  },
+  deflecting:   { label: "Deflecting",   cls: "bg-yellow/10 text-yellow" },
+  nervous:      { label: "Nervous",      cls: "bg-blue/10   text-blue"   },
+  hostile:      { label: "Hostile",      cls: "bg-red/10    text-red"    },
+  confessing:   { label: "Confessing",   cls: "bg-purple/10 text-purple" },
 };
 
 export function BehaviourBadge({ behaviour }: { behaviour: NPCBehaviour }) {
-  const style = BEHAVIOUR_STYLES[behaviour] ?? {
-    label: behaviour,
-    classes: "bg-surface text-tx-muted",
-  };
-  return (
-    <span className={`badge font-medium ${style.classes}`}>
-      {style.label}
-    </span>
-  );
+  const s = STYLES[behaviour] ?? { label: behaviour, cls: "bg-raised text-ink-2" };
+  return <span className={`tag text-xs font-medium ${s.cls}`}>{s.label}</span>;
 }
