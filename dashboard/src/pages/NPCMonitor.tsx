@@ -8,20 +8,20 @@ import { LiveIndicator } from "../components/LiveIndicator";
 import { MemoryLog } from "../components/MemoryLog";
 import { useNexusWS } from "../hooks/useNexusWS";
 
-const EMOTION_BARS: Array<{ key: keyof EmotionalState; label: string; colour: string }> = [
-  { key: "stress",      label: "Stress",      colour: "bg-status-red"    },
-  { key: "trust",       label: "Trust",       colour: "bg-status-green"  },
-  { key: "suspicion",   label: "Suspicion",   colour: "bg-status-yellow" },
-  { key: "cooperation", label: "Cooperation", colour: "bg-accent"        },
+const BARS: Array<{ key: keyof EmotionalState; label: string; colour: string }> = [
+  { key: "stress",      label: "Stress",      colour: "bg-red"    },
+  { key: "trust",       label: "Trust",       colour: "bg-green"  },
+  { key: "suspicion",   label: "Suspicion",   colour: "bg-yellow" },
+  { key: "cooperation", label: "Cooperation", colour: "bg-blue"   },
 ];
 
 export default function NPCMonitor() {
   const { sessionId, npcId } = useParams<{ sessionId: string; npcId: string }>();
-  const [npc, setNpc]             = useState<NPC | null>(null);
-  const [state, setState]         = useState<EmotionalState | null>(null);
+  const [npc, setNpc]         = useState<NPC | null>(null);
+  const [state, setState]     = useState<EmotionalState | null>(null);
   const [behaviour, setBehaviour] = useState<NPCBehaviour>("cooperative");
-  const [memory, setMemory]       = useState<MemoryEntry[]>([]);
-  const [loading, setLoading]     = useState(true);
+  const [memory, setMemory]   = useState<MemoryEntry[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedNpcId, setSelectedNpcId] = useState<string | null>(npcId ?? null);
   const [sessionNpcs, setSessionNpcs]     = useState<NPC[]>([]);
 
@@ -32,9 +32,7 @@ export default function NPCMonitor() {
     api.npcs.listInSession(sessionId)
       .then((npcs) => {
         setSessionNpcs(npcs);
-        if (!selectedNpcId && npcs.length > 0) {
-          setSelectedNpcId(npcs[0]?.id ?? null);
-        }
+        if (!selectedNpcId && npcs.length > 0) setSelectedNpcId(npcs[0]?.id ?? null);
       })
       .catch(() => {});
   }, [sessionId, selectedNpcId]);
@@ -42,10 +40,7 @@ export default function NPCMonitor() {
   useEffect(() => {
     if (!selectedNpcId) return;
     setLoading(true);
-    Promise.all([
-      api.npcs.get(selectedNpcId),
-      api.npcs.getMemory(selectedNpcId, 20),
-    ])
+    Promise.all([api.npcs.get(selectedNpcId), api.npcs.getMemory(selectedNpcId, 20)])
       .then(([npcData, memData]) => {
         setNpc(npcData);
         setState(npcData.current_emotional_state);
@@ -64,100 +59,95 @@ export default function NPCMonitor() {
 
   if (!sessionId) {
     return (
-      <div className="p-6 text-tx-muted text-sm">
-        Navigate to a session first: <code className="font-mono text-accent">/sessions/[id]/npc-monitor</code>
+      <div className="p-6 text-xs text-ink-3">
+        Navigate to a session first: <code className="font-mono text-blue">/sessions/[id]/npc-monitor</code>
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+    <div>
+      <div className="page-header flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-tx-primary">NPC Monitor</h1>
-          <p className="text-tx-muted text-xs mt-0.5 font-mono">Session {sessionId.slice(0, 8)}…</p>
+          <h1 className="text-[15px] font-semibold text-ink">NPC Monitor</h1>
+          <p className="text-xs text-ink-3 mt-0.5 font-mono">{sessionId.slice(0, 8)}…</p>
         </div>
         <LiveIndicator live={connected} />
       </div>
 
-      {/* NPC selector */}
-      {sessionNpcs.length > 1 && (
-        <div className="flex gap-1.5 mb-5 flex-wrap p-1 bg-surface-raised border border-border rounded-lg w-fit">
-          {sessionNpcs.map((n) => (
-            <button
-              key={n.id}
-              onClick={() => setSelectedNpcId(n.id)}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                selectedNpcId === n.id
-                  ? "bg-surface-overlay text-tx-primary shadow-sm"
-                  : "text-tx-muted hover:text-tx-secondary"
-              }`}
-            >
-              {n.name}
-            </button>
-          ))}
-        </div>
-      )}
+      <div className="px-6">
+        {/* NPC tabs */}
+        {sessionNpcs.length > 1 && (
+          <div className="flex gap-1 mb-4 p-0.5 bg-raised border border-border rounded-lg w-fit">
+            {sessionNpcs.map((n) => (
+              <button
+                key={n.id}
+                onClick={() => setSelectedNpcId(n.id)}
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                  selectedNpcId === n.id
+                    ? "bg-hover text-ink shadow-sm"
+                    : "text-ink-3 hover:text-ink-2"
+                }`}
+              >
+                {n.name}
+              </button>
+            ))}
+          </div>
+        )}
 
-      {loading ? (
-        <div className="space-y-3">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-16 bg-surface-raised border border-border rounded-card animate-pulse" />
-          ))}
-        </div>
-      ) : !npc ? (
-        <div className="flex flex-col items-center justify-center py-24 text-tx-muted gap-2">
-          <p className="text-sm">No NPCs found in this session.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {/* Left: state panel */}
-          <div className="space-y-4">
-            <div className="card p-5">
-              <div className="flex items-center justify-between mb-5">
-                <div>
-                  <h2 className="font-semibold text-tx-primary">{npc.name}</h2>
-                  <p className="text-tx-muted text-xs mt-0.5">Emotional State</p>
+        {loading ? (
+          <div className="space-y-2">
+            {[1, 2, 3].map((i) => <div key={i} className="h-12 card animate-pulse" />)}
+          </div>
+        ) : !npc ? (
+          <div className="text-center py-20 text-ink-3 text-sm">
+            No NPCs found in this session.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Left */}
+            <div className="space-y-3">
+              <div className="card p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <p className="font-medium text-ink">{npc.name}</p>
+                    <p className="text-xs text-ink-3 mt-0.5">Emotional state</p>
+                  </div>
+                  <BehaviourBadge behaviour={behaviour} />
                 </div>
-                <BehaviourBadge behaviour={behaviour} />
+                <div className="space-y-3.5">
+                  {BARS.map(({ key, label, colour }) => (
+                    <EmotionBar key={key} label={label} value={state?.[key] ?? 0} colour={colour} />
+                  ))}
+                </div>
               </div>
-              <div className="space-y-4">
-                {EMOTION_BARS.map(({ key, label, colour }) => (
-                  <EmotionBar
-                    key={key}
-                    label={label}
-                    value={state?.[key] ?? 0}
-                    colour={colour}
-                  />
-                ))}
+
+              {lastNpcUpdate?.secret_leaked && (
+                <div className="card p-3 border-red/25 bg-red/5">
+                  <p className="text-xs text-red font-medium">Secret revealed</p>
+                  <p className="text-xs text-ink-2 mt-0.5">{lastNpcUpdate.secret_leaked}</p>
+                </div>
+              )}
+
+              <div className="card p-3">
+                <p className="text-2xs text-ink-3 mb-2 font-medium uppercase tracking-wider">Raw state</p>
+                <pre className="text-2xs text-green font-mono whitespace-pre-wrap overflow-auto max-h-36 leading-relaxed">
+                  {JSON.stringify(state, null, 2)}
+                </pre>
               </div>
             </div>
 
-            {lastNpcUpdate?.secret_leaked && (
-              <div className="bg-status-red/10 border border-status-red/20 rounded-card p-4 text-sm text-status-red">
-                <span className="font-medium">Secret revealed:</span> {lastNpcUpdate.secret_leaked}
-              </div>
-            )}
-
+            {/* Right */}
             <div className="card p-4">
-              <p className="text-xs font-medium text-tx-muted mb-2">Raw State</p>
-              <pre className="text-xs text-status-green font-mono whitespace-pre-wrap overflow-auto max-h-40">
-                {JSON.stringify(state, null, 2)}
-              </pre>
+              <div className="flex items-center justify-between mb-4">
+                <p className="font-medium text-ink text-sm">Interaction history</p>
+                <span className="text-2xs text-ink-3">{memory.length} entries</span>
+              </div>
+              <MemoryLog entries={memory} />
             </div>
           </div>
-
-          {/* Right: memory log */}
-          <div className="card p-5">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-tx-primary">Interaction History</h2>
-              <span className="text-tx-muted text-xs">{memory.length} entries</span>
-            </div>
-            <MemoryLog entries={memory} />
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
