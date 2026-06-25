@@ -9,7 +9,7 @@
 </a>
 &nbsp;
 <a href="#">
-  <img src="https://img.shields.io/badge/Phase-1%20%E2%80%94%20Foundation-4fa3e0?style=for-the-badge&labelColor=0D1117" />
+  <img src="https://img.shields.io/badge/Phase-3%20%E2%80%94%20SDK%20%26%20DX-4fa3e0?style=for-the-badge&labelColor=0D1117" />
 </a>
 &nbsp;
 <a href="#">
@@ -459,10 +459,10 @@ When a player is flagged, Nexus fires a webhook to your game with full context �
          └─────────────────────────────────────────────────────┘
                                    │
          ┌─────────────────────────▼───────────────────────────┐
-         │             Developer Dashboard (React)             │
-         │   Session monitor · NPC stats · Player analytics    │
-         │   API key management · Webhook config · Billing     │
-         └─────────────────────────────────────────────────────┘
+          │          Developer Dashboard (React + Vite)         │
+          │  Sessions · NPC monitor · Analytics · API Keys      │
+          │  Webhooks · Live WebSocket state · Phase 3 ✅       │
+          └─────────────────────────────────────────────────────┘
 ```
 
 **Technology decisions and why:**
@@ -473,7 +473,7 @@ When a player is flagged, Nexus fires a webhook to your game with full context �
 | Database | PostgreSQL | Relational integrity for sessions + players, JSONB for flexible NPC state |
 | Cache / Pub-Sub | Redis | Session state hot cache, WebSocket pub-sub across server instances |
 | AI provider | Provider-agnostic (OpenAI / Groq / Anthropic) | No vendor lock-in, swap models without changing game code |
-| Frontend | React + Tailwind | Fast dashboard development |
+| Frontend | React + Vite + Tailwind CSS | Developer dashboard — sessions, analytics, API keys, webhooks, live NPC monitor |
 | Deployment | Docker + Docker Compose | Consistent local dev, easy production deploy |
 
 ---
@@ -495,6 +495,35 @@ Nexus will ship official SDKs for the most common game environments. The design 
 - Sensible defaults — the minimum viable call should work out of the box
 - Explicit errors — no silent failures, every exception is descriptive
 - Offline mode — SDK works with a local Nexus instance for development
+
+---
+
+## 🖥️ Developer Dashboard
+
+The Nexus Developer Dashboard is a fully-featured React frontend that ships alongside the platform. It gives developers real-time visibility into everything happening inside their game sessions.
+
+**Running locally:**
+
+```bash
+# Start the full stack (API + Postgres + Redis + Dashboard)
+docker compose up -d
+
+# Dashboard → http://localhost:3000
+# API docs  → http://localhost:8000/docs
+```
+
+**Pages:**
+
+| Page | Description |
+|---|---|
+| **Sessions** | Live list of all game sessions with status indicators and player counts |
+| **NPC Monitor** | Per-session NPC inspector — emotional state bars, behaviour badge, full interaction history with live WebSocket updates |
+| **Analytics** | Event volume charts (by hour), breakdown by event type, and a paginated raw event table |
+| **API Keys** | Create, view, and revoke per-game API keys |
+| **Webhooks** | Register endpoints, subscribe to events, and fire test deliveries with live HTTP status feedback |
+
+**Design:**
+Clean, professional dark SaaS aesthetic — Inter typography, Zinc/Indigo palette, card-based layouts, and subtle hover states. Built to feel like a tool developers want to use, not a demo.
 
 ---
 
