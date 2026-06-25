@@ -1,9 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
   body {
-    @apply bg-nexus-bg text-white font-mono;
+    background-color: #111118;
+    color: #f4f4f6;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Subtle scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #3f3f50; border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #5a5a6e; }
+}
+
+@layer components {
+  /* Card */
+  .card {
+    @apply bg-surface-raised border border-border rounded-card shadow-card;
+  }
+
+  /* Input */
+  .field {
+    @apply w-full bg-surface border border-border rounded-lg px-3 py-2 text-sm text-tx-primary
+           placeholder:text-tx-muted
+           focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent
+           transition-colors;
+  }
+
+  /* Primary button */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+           bg-accent text-white hover:bg-accent-hover
+           disabled:opacity-40 disabled:cursor-not-allowed
+           transition-colors;
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+           border border-border text-tx-secondary hover:bg-surface-overlay hover:text-tx-primary
+           disabled:opacity-40 disabled:cursor-not-allowed
+           transition-colors;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium;
   }
 }
