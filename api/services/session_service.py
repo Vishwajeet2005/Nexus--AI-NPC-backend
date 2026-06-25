@@ -252,7 +252,7 @@ async def get_session(session_id: UUID, player: Player, db: AsyncSession) -> Ses
     session = await _get_session_or_404(session_id, db)
 
     in_session = any(
-        sp.player_id == player.id and sp.left_at is None
+        sp.player_id == player.id
         for sp in session.session_players
     )
     if not in_session:
@@ -568,7 +568,7 @@ async def get_session_players(
     session = await _get_session_or_404(session_id, db)
 
     in_session = any(
-        sp.player_id == player.id and sp.left_at is None
+        sp.player_id == player.id
         for sp in session.session_players
     )
     if not in_session:

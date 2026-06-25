@@ -40,6 +40,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 import redis.asyncio as aioredis
 
 from api.models.npc import NPC
+from api.models.session import SessionPlayer
 from api.schemas.npc import (
     NPCBehaviour,
     NPCCreate,
@@ -189,6 +190,21 @@ async def get_npc_or_404(npc_id: UUID, db: AsyncSession) -> NPC:
     return npc
 
 
+async def _require_session_membership(session_id: UUID, player_id: UUID, db: AsyncSession) -> None:
+    result = await db.execute(
+        select(1)
+        .where(
+            SessionPlayer.session_id == session_id,
+            SessionPlayer.player_id == player_id
+        )
+    )
+    if not result.scalar_one_or_none():
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={"error": "You must be an active member of the session to interact with this NPC.", "code": "NOT_IN_SESSION"}
+        )
+
+
 def build_npc_response(npc: NPC) -> NPCResponse:
     """
     Build a public NPCResponse from an ORM NPC row.
@@ -224,6 +240,9 @@ async def interact(
 
     # Step 1: Load NPC
     npc = await get_npc_or_404(npc_id, db)
+
+    # Validate membership
+    await _require_session_membership(npc.session_id, player_id, db)
 
     # Step 2: Deserialise emotional state
     current_state = NPCEmotionalState(**npc.current_state)
@@ -360,12 +379,15 @@ async def interact(
 
 async def get_memory(
     npc_id: UUID,
+    player_id: UUID,
     db: AsyncSession,
     limit: int = 20,
     offset: int = 0,
 ) -> NPCMemoryResponse:
     """GET /v1/npcs/{npc_id}/memory — paginated cold storage read."""
-    await get_npc_or_404(npc_id, db)
+    npc = await get_npc_or_404(npc_id, db)
+    await _require_session_membership(npc.session_id, player_id, db)
+    
     entries, total = await memory_service.get_cold_memory(
         npc_id=npc_id,
         db=db,
