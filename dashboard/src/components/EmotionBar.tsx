@@ -1,20 +1,20 @@
 interface EmotionBarProps {
   label: string;
-  value: number;   // 0.0 – 1.0
-  colour: string;  // Tailwind bg-* class
+  value: number;
+  colour: string;
 }
 
 export function EmotionBar({ label, value, colour }: EmotionBarProps) {
-  const pct = Math.round(Math.max(0, Math.min(1, value)) * 100);
+  const pct = Math.round(Math.min(1, Math.max(0, value)) * 100);
   return (
-    <div className="flex flex-col gap-1">
-      <div className="flex justify-between text-xs text-nexus-muted font-mono">
-        <span>{label.toUpperCase()}</span>
-        <span>{pct}%</span>
+    <div className="space-y-1.5">
+      <div className="flex justify-between items-center">
+        <span className="text-xs font-medium text-tx-secondary">{label}</span>
+        <span className="text-xs text-tx-muted tabular-nums">{pct}%</span>
       </div>
-      <div className="h-2 bg-nexus-border rounded-full overflow-hidden">
+      <div className="h-1.5 bg-surface rounded-full overflow-hidden">
         <div
-          className={`h-full ${colour} rounded-full transition-all duration-700 ease-in-out`}
+          className={`h-full rounded-full transition-all duration-500 ${colour}`}
           style={{ width: `${pct}%` }}
         />
       </div>
