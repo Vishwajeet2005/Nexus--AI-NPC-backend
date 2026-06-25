@@ -128,7 +128,7 @@ async def get_session(
     Retrieve the full session record including current player list,
     configuration, and live game state.
     """
-    return await session_service.get_session(session_id, db)
+    return await session_service.get_session(session_id, current_user, db)
 
 
 # ── POST /sessions/{session_id}/join ──────────────────────────────────────────
@@ -268,7 +268,7 @@ async def get_session_players(
     Departed players are excluded — use `GET /sessions/{id}` if you need
     the full membership history.
     """
-    return await session_service.get_session_players(session_id, db)
+    return await session_service.get_session_players(session_id, current_user, db)
 
 
 # ── PATCH /sessions/{session_id}/state ────────────────────────────────────────
