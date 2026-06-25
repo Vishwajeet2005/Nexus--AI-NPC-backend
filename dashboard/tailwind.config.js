@@ -4,43 +4,43 @@ export default {
   theme: {
     extend: {
       colors: {
-        surface: {
-          DEFAULT: "#111118",
-          raised: "#18181f",
-          overlay: "#1e1e28",
+        // Warm dark base — not pure zinc, has a touch of warmth
+        base: "#0f0f11",
+        panel: "#161618",
+        raised: "#1c1c1f",
+        hover: "#222226",
+        border: "#2a2a2e",
+        "border-light": "#333338",
+
+        // Accent — a considered blue, not a generic brand color
+        blue: {
+          DEFAULT: "#4c7cf4",
+          dim: "#4c7cf418",
+          soft: "#4c7cf430",
         },
-        border: {
-          DEFAULT: "#27272f",
-          subtle: "#1f1f27",
-          strong: "#3f3f50",
-        },
-        accent: {
-          DEFAULT: "#4f6ef7",
-          hover:   "#6680ff",
-          muted:   "#4f6ef720",
-        },
-        tx: {
-          primary:  "#f4f4f6",
-          secondary: "#8b8b9e",
-          muted:    "#5a5a6e",
-        },
-        status: {
-          green:  "#34d399",
-          red:    "#f87171",
-          yellow: "#fbbf24",
-          blue:   "#60a5fa",
-        },
+
+        // Text — warm off-whites, not pure white
+        ink: "#eeeef0",
+        "ink-2": "#9898a6",
+        "ink-3": "#5c5c6e",
+
+        // Semantic colors
+        green:  "#3ecf8e",
+        red:    "#f16a50",
+        yellow: "#f5a623",
+        purple: "#9d7aea",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"],
+        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
       },
-      borderRadius: {
-        card: "10px",
+      fontSize: {
+        "2xs": ["10px", "14px"],
       },
       boxShadow: {
-        card: "0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4)",
-        "card-hover": "0 4px 12px 0 rgb(0 0 0 / 0.5)",
+        sm:  "0 1px 2px rgba(0,0,0,0.5)",
+        md:  "0 2px 8px rgba(0,0,0,0.4)",
+        glow: "0 0 0 3px rgba(76,124,244,0.2)",
       },
     },
   },
