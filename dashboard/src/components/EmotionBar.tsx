@@ -7,14 +7,14 @@ interface EmotionBarProps {
 export function EmotionBar({ label, value, colour }: EmotionBarProps) {
   const pct = Math.round(Math.min(1, Math.max(0, value)) * 100);
   return (
-    <div className="space-y-1.5">
-      <div className="flex justify-between items-center">
-        <span className="text-xs font-medium text-tx-secondary">{label}</span>
-        <span className="text-xs text-tx-muted tabular-nums">{pct}%</span>
+    <div>
+      <div className="flex justify-between text-xs mb-1.5">
+        <span className="text-ink-2">{label}</span>
+        <span className="text-ink-3 tabular-nums">{pct}%</span>
       </div>
-      <div className="h-1.5 bg-surface rounded-full overflow-hidden">
+      <div className="h-1 bg-raised rounded-full overflow-hidden">
         <div
-          className={`h-full rounded-full transition-all duration-500 ${colour}`}
+          className={`h-full rounded-full transition-[width] duration-500 ease-out ${colour}`}
           style={{ width: `${pct}%` }}
         />
       </div>
