@@ -14,8 +14,8 @@
   }
 
   body {
-    background: #0f0f11;
-    color: #eeeef0;
+    background: #fafafa;
+    color: #18181b;
     font-family: 'Inter', system-ui, sans-serif;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
@@ -23,10 +23,10 @@
 
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #333338; border-radius: 99px; }
-  ::-webkit-scrollbar-thumb:hover { background: #4a4a55; }
+  ::-webkit-scrollbar-thumb { background: #e4e4e7; border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #d4d4d8; }
 
-  ::selection { background: rgba(76,124,244,0.25); }
+  ::selection { background: rgba(37, 99, 235, 0.2); }
 }
 
 @layer components {
