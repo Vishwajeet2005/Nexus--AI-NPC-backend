@@ -529,7 +529,7 @@ Clean, professional dark SaaS aesthetic — Inter typography, Zinc/Indigo palett
 
 ## 🕵️ Echoes of Truth
 
-**Echoes of Truth** is the game being built on top of Nexus — its purpose is to prove that the platform works by being a real, shippable product built entirely on it.
+**Echoes of Truth** is the flagship production-grade game being built on top of Nexus. Its purpose is to prove that the platform works by being a real, shippable product powered entirely by this backend. The game is being developed as a high-performance, custom C++ client that connects directly to the Nexus API.
 
 An AI interrogation game. Players question a suspect whose story, emotional state, memory, and behavior adapt dynamically based on how the interrogation unfolds. The suspect is not scripted — they run on the Nexus NPC service with a full personality, a set of secrets with reveal thresholds, and accumulated stress across the session.
 
