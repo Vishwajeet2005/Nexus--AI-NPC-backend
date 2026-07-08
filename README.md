@@ -109,9 +109,9 @@ Everything shares the same session context. Your NPC knows what's happening in t
 
 ---
 
-## ✨ Platform Features
+##  Platform Features
 
-### 🎮 1. Multiplayer Session Management
+###  1. Multiplayer Session Management
 
 The core primitive that everything else in Nexus is built on. A **Session** is a live game instance — it has players, state, NPCs, and a lifecycle (created → active → ended). Nexus manages all of it.
 
