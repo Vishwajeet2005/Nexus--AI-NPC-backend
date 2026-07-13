@@ -82,7 +82,7 @@ The result is NPCs that feel hollow. Players ask a question, the NPC answers, bu
 
 ---
 
-## 🧠 What is Nexus?
+## What is Nexus?
 
 Nexus is an **AI-native game backend platform** — a single managed service that handles everything a modern multiplayer game needs, with AI as a first-class citizen, not an afterthought.
 
