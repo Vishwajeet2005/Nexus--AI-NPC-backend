@@ -41,7 +41,7 @@ Multiplayer infrastructure + stateful AI NPC service — managed, scalable, and 
 
 ---
 
-## ⚠️ Build Status
+## Build Status
 
 > **Nexus is currently being actively built.** This README is the blueprint — the vision document that drives development. Code is being written, architecture is being validated, and the platform is taking shape.
 >
@@ -59,7 +59,7 @@ Multiplayer infrastructure + stateful AI NPC service — managed, scalable, and 
 
 ---
 
-## 🔥 The Problem
+## The Problem
 
 Building a multiplayer game with AI characters in 2026 means stitching together at least **five separate systems** that were never designed to talk to each other:
 
@@ -242,7 +242,7 @@ stress: 0.2 ──────────────────────�
 
 ---
 
-### ⚡ 3. Real-Time WebSocket Infrastructure
+### 3. Real-Time WebSocket Infrastructure
 
 Every Nexus session has a managed WebSocket room. Players, NPCs, and the game server all communicate through it — Nexus handles connection pooling, reconnection, delivery guarantees, and message ordering.
 
@@ -284,7 +284,7 @@ nexus.on("npc_behaviour_changed", ({ npc_id, new_behaviour, visible_tell }) => {
 
 ---
 
-### 🧩 4. AI-Powered Matchmaking
+### 4. AI-Powered Matchmaking
 
 Traditional matchmaking is ELO and ping. Nexus matchmaking adds a **play style dimension** — so players are matched not just by skill, but by how they play, creating sessions where the dynamic between players makes the game better.
 
@@ -318,7 +318,7 @@ async def on_match(event):
 
 ---
 
-### 📊 5. Behavioural Analytics & Game Intelligence
+### 5. Behavioural Analytics & Game Intelligence
 
 Every player action, NPC interaction, game event, and session outcome is automatically captured. Nexus surfaces insights you would never think to instrument manually — because it understands the game structure, not just raw events.
 
@@ -367,7 +367,7 @@ await nexus.analytics.track(
 
 ---
 
-### 🔒 6. Player Auth & Identity
+### 6. Player Auth & Identity
 
 Production-grade authentication with zero setup. Nexus manages player accounts, sessions, and identity so you don't have to build it or worry about getting it wrong.
 
@@ -397,7 +397,7 @@ print(player.id, player.username, player.game_profile)
 
 ---
 
-### 🛡️ 7. Anti-Cheat Integration (via SentinelX)
+### 7. Anti-Cheat Integration (via SentinelX)
 
 Nexus natively integrates with **[SentinelX](https://github.com/Vishwajeet2005/SentinelX)** — an open-source enterprise anti-cheat system built alongside Nexus. One configuration flag enables telemetry collection, ML-based anomaly detection (speedhacks, aim-snapping), and a live SOC dashboard for your game.
 
@@ -418,7 +418,7 @@ When a player is flagged, Nexus fires a webhook to your game with full context �
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
                         ┌───────────────────────────────┐
@@ -478,7 +478,7 @@ When a player is flagged, Nexus fires a webhook to your game with full context �
 
 ---
 
-## 🔧 Developer SDK
+## Developer SDK
 
 Nexus will ship official SDKs for the most common game environments. The design goal: a developer should be able to create their first NPC-powered session in **under 10 minutes** from first `pip install`.
 
@@ -498,7 +498,7 @@ Nexus will ship official SDKs for the most common game environments. The design 
 
 ---
 
-## 🖥️ Developer Dashboard
+## Developer Dashboard
 
 The Nexus Developer Dashboard is a fully-featured React frontend that ships alongside the platform. It gives developers real-time visibility into everything happening inside their game sessions.
 
@@ -527,7 +527,7 @@ Clean, professional dark SaaS aesthetic — Inter typography, Zinc/Indigo palett
 
 ---
 
-## 🕵️ Echoes of Truth
+## Echoes of Truth
 
 **Echoes of Truth** is the flagship production-grade game being built on top of Nexus. Its purpose is to prove that the platform works by being a real, shippable product powered entirely by this backend. The game is being developed as a high-performance, custom C++ client that connects directly to the Nexus API.
 
@@ -551,7 +551,7 @@ Echoes of Truth is the answer to the question every developer will ask: *"Does N
 
 ---
 
-## 🗺️ Roadmap
+##  Roadmap
 
 ```
 PHASE 1 — Foundation                              ✅ COMPLETE
@@ -617,7 +617,7 @@ PHASE 5 — Platform Launch                        📋 FUTURE
 
 ---
 
-## 🧰 Full Tech Stack
+## Full Tech Stack
 
 | Layer | Technology | Version | Purpose |
 |---|---|---|---|
@@ -634,7 +634,7 @@ PHASE 5 — Platform Launch                        📋 FUTURE
 
 ---
 
-## 📂 Planned Project Structure
+## Planned Project Structure
 
 ```
 nexus/
@@ -694,7 +694,7 @@ nexus/
 
 ---
 
-## 🤝 Building in Public
+## Building in Public
 
 Nexus is being built entirely in public. Every architectural decision, every tradeoff, every mistake — it will all be visible in the commit history.
 
@@ -717,7 +717,7 @@ docker-compose up --build
 
 ---
 
-## 📫 Contact
+## Contact
 
 Built by **[Vishwajeet Vikram Borade](https://github.com/Vishwajeet2005)** · India 🇮🇳
 
